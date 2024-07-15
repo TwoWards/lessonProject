@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-const PORT = 3000;
+const PORT = 5000;
 
 const DB_URI = 'mongodb://localhost:27017/Lessons_DB';
 
