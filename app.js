@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const Lesson = require('./Schema.js');
+const Lesson = require('./src/models/Schema.js');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const bodyParser = require('body-parser');
