@@ -1,9 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const Lesson = require('./src/models/Schema.js');
+const Lesson = require('./src/models/schema.model.js');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const bodyParser = require('body-parser');
+const routes = require("./src/routes.js");
 
 const app = express();
 
@@ -20,49 +21,7 @@ async function startApp () {
     }
 }
 
-app.get('/api/lessons', async (req, res) => {
-    try {
-        const lessons = await Lesson.find({});
-        res.send(lessons);
-    } catch (err) {
-        console.log(err);
-        res.sendStatus(500);
-    }
-});
-
-app.post('/api/lessons', async (req, res) => {
-    const {name, path, numbersArray} = req.body;
-
-    if (!req.body) return res.sendStatus(400);
-    if (!name || !path || !Array.isArray(numbersArray)) return res.sendStatus(400);
-
-    try {
-        const lesson = new Lesson({name, path, numbersArray});
-
-        await lesson.save();
-        res.status(201).send(lesson);
-    } catch (err) {
-        console.log(err);
-        res.sendStatus(500);
-    }
-});
-
-app.delete('/api/lessons/:id', async (req, res) => {
-    const id = req.params.id;
-
-    try {
-        const lesson = await Lesson.findByIdAndDelete(id);
-
-        if (!lesson) {
-            return res.sendStatus(404);
-        } else {
-            return res.send(lesson);
-        }
-    } catch (err) {
-        console.log('Ошибка при удалении урока:', err);
-        return res.sendStatus(500);
-    }
-});
+app.use('/api', routes);
 
 startApp().catch(err => {
     console.error('Ошибка при запуске приложения', err);
