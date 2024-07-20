@@ -29,6 +29,24 @@ async function deleteLesson(id) {
     }
 }
 
+async function editLesson(id, name, path, numbersArray) {
+    try {
+        const lesson = await Lesson.findById(id);
+
+        if (!lesson) return null;
+
+        if (name) lesson.name = name;
+        if (path) lesson.path = path;
+        if (Array.isArray(numbersArray)) lesson.numbersArray = numbersArray;
+
+        await lesson.save();
+        return lesson;
+    } catch (e) {
+        console.error(e);
+        throw(e);
+    }
+}
+
 async function getLessons() {
     try {
         const lessons = await Lesson.find({});
@@ -43,4 +61,5 @@ module.exports = {
     getLessons,
     deleteLesson,
     createLesson,
+    editLesson,
 }
