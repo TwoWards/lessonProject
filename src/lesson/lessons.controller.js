@@ -59,7 +59,7 @@ router.patch('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-    const {name, path, numbersArray} = req.body;
+    const {name, path, classNumber} = req.body;
     if (!req.body) return res.sendStatus(400);
 
     try {

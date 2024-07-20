@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 const Lesson = require("../models/schema.model");
 
-async function createLesson(name, path, numbersArray) {
+async function createLesson(name, path, classNumber) {
     try {
-        if (!name || !path || !Array.isArray(numbersArray)) return null;
+        if (!name || !path || !Array.isArray(classNumber)) return null;
 
         const lesson = new Lesson({name, path, numbersArray});
 
@@ -29,7 +29,7 @@ async function deleteLesson(id) {
     }
 }
 
-async function editLesson(id, name, path, numbersArray) {
+async function editLesson(id, name, path, classNumber) {
     try {
         const lesson = await Lesson.findById(id);
 
@@ -37,7 +37,7 @@ async function editLesson(id, name, path, numbersArray) {
 
         if (name) lesson.name = name;
         if (path) lesson.path = path;
-        if (Array.isArray(numbersArray)) lesson.numbersArray = numbersArray;
+        if (Array.isArray(classNumber)) lesson.classNumber = classNumber;
 
         await lesson.save();
         return lesson;

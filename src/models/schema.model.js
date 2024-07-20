@@ -3,17 +3,28 @@ const mongoose = require('mongoose');
 const schemaLesson = new mongoose.Schema ({
     name: {
         type: String,
-        minlength: 3,
-        maxlength: 20
+        required: true,
+        validate: {
+           validator(value) {
+               return value.length >=3 && value.length <= 20;
+           },
+            message: 'Название урока должно быть от 3 до 20 символов',
+        }
     },
     path: {
         type: String,
-        minlength: 3,
-        maxlength: 20,
+        required: true,
+        validate: {
+            validator(value) {
+                return value.length >=3 && value.length <= 20;
+            },
+            message: 'Путь урока должно быть от 3 до 20 символов',
+        },
         match: /^[a-zA-Z]+$/
     },
     numbersArray: {
-        type: [Number]
+        type: [Number],
+        required: true,
     }
 })
 
