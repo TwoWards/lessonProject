@@ -5,7 +5,7 @@ async function createLesson(name, path, classNumber) {
     try {
         if (!name || !path || !Array.isArray(classNumber)) return null;
 
-        const lesson = new Lesson({name, path, numbersArray});
+        const lesson = new Lesson({name, path, classNumber});
 
         await lesson.save();
         return lesson;

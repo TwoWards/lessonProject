@@ -22,7 +22,7 @@ const schemaLesson = new mongoose.Schema ({
         },
         match: /^[a-zA-Z]+$/
     },
-    numbersArray: {
+    classNumber: {
         type: [Number],
         required: true,
     }

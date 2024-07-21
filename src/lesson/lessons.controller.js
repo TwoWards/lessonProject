@@ -40,14 +40,14 @@ router.get('/', async (req, res) => {
 
 router.patch('/:id', async (req, res) => {
     const id = req.params.id;
-    const { name, path, numbersArray } = req.body;
+    const { name, path, classNumber } = req.body;
 
     if (!id) {
         return res.status(400).json({message: 'Не указан id!'});
     }
 
     try {
-        const editedLesson = await editLesson({id, name, path, numbersArray});
+        const editedLesson = await editLesson(id, name, path, classNumber);
         if(!editedLesson) {
             return res.status(400).json({message: 'Урок с указанным id не найден!'})
         }
@@ -59,19 +59,23 @@ router.patch('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
+    if (!req.body) return res.status(400).json({message: 'Тело запроса не может быть пустым'});
     const {name, path, classNumber} = req.body;
-    if (!req.body) return res.sendStatus(400);
+
+    if (!name || !path || !Array.isArray(classNumber)) {
+        return res.status(400).json({ message: 'Некоторые поля не заполнены или не корректные.' });
+    }
 
     try {
-        const addedLesson = await createLesson({name, path, numbersArray});
+        const addedLesson = await createLesson(name, path, classNumber);
         if(!addedLesson) {
             return res.status(400).json({message: 'Не удалось создать урок!'})
         }
 
-        res.status(200).json(addedLesson);
+        return res.status(200).json(addedLesson);
     } catch (e) {
         console.error('Ошибка при создании урока', e);
-        res.status(500).json({ message: 'Ошибка сервера' });
+        return res.status(500).json({ message: 'Ошибка сервера' });
     }
 });
 

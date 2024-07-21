@@ -12,6 +12,8 @@ const PORT = 5000;
 
 const DB_URI = 'mongodb://localhost:27017/Lessons_DB';
 
+app.use(express.json());
+
 async function startApp () {
     try {
         await mongoose.connect(DB_URI);
