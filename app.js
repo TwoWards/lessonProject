@@ -10,11 +10,25 @@ const routes = require("./src/routes.js");
 
 const app = express();
 
-const PORT = process.env.APP_PORT;
+const PORT = process.env.APP_PORT || 3000;
 
 const DB_URI = process.env.DB_URI;
 
+const options = {
+    definition: {
+        openapi: '3.0.0',
+        info: { title: 'API Lesson', version: '1.0.0' },
+    },
+    apis: ['./main.swagger.yaml'],
+};
+
+const swaggerSpec = swaggerJsdoc(options);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(options)));
+
 app.use(express.json());
+
+app.use('/api', routes);
 
 async function startApp () {
     try {
@@ -24,8 +38,6 @@ async function startApp () {
         return console.log(err);
     }
 }
-
-app.use('/api', routes);
 
 startApp().catch(err => {
     console.error('Ошибка при запуске приложения', err);
