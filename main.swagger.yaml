@@ -66,8 +66,10 @@ paths:
         - name: id
           in: path
           required: true
+          description: Идентификатор урока
           schema:
             type: string
+          example: 66a0ebbbd279f3234395bf19
       responses:
         '200':
           description: Успешный ответ с уроком
@@ -96,8 +98,10 @@ paths:
         - name: id
           in: path
           required: true
+          description: Идентификатор урока
           schema:
             type: string
+          example: 66a0ebbbd279f3234395bf19
       requestBody:
         description: Объект урока для редактирования
         required: true
@@ -133,8 +137,10 @@ paths:
         - name: id
           in: path
           required: true
+          description: Идентификатор урока
           schema:
             type: string
+          example: 66a0ebbbd279f3234395bf19
       responses:
         '200':
           description: Урок успешно удален
