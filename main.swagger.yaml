@@ -1,0 +1,194 @@
+openapi: 3.0.0
+info:
+  title: API Lesson
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000/api/lessons
+    description: Lesson server
+paths:
+  /api/lessons:
+    get:
+      summary: Метод получения уроков
+      tags:
+        - Lessons
+      operationId: getAllLessons
+      responses:
+        '200':
+          description: Успешный ответ со списком уроков
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Lessons"
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Метод создания урока
+      tags:
+        - Lessons
+      operationId: createLesson
+      requestBody:
+        description: Объект урока для создания
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Lesson"
+      responses:
+        '200':
+          description: Урок успешно создан
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Lesson"
+        '400':
+          description: Не удалось создать урок
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/lessons/{id}:
+    get:
+      summary: Метод получения урока по ID
+      tags:
+        - Lessons
+      operationId: getLessonById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ с уроком
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Lesson"
+        '404':
+          description: Урок с указанным id не найден
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      summary: Метод редактирования урока
+      tags:
+        - Lessons
+      operationId: updateLesson
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Объект урока для редактирования
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Lesson"
+      responses:
+        '200':
+          description: Урок успешно отредактирован
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Lesson"
+        '400':
+          description: Урок с указанным id не найден
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Метод удаления урока
+      tags:
+        - Lessons
+      operationId: deleteLesson
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Урок успешно удален
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Урок успешно удален
+        '400':
+          description: Урок с указанным id не найден
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Lesson:
+      type: object
+      required:
+        - name
+        - path
+        - classNumber
+      properties:
+        name:
+          type: string
+          example: Biology
+          description: Название урока, должно быть от 3 до 20 символов.
+        path:
+          type: string
+          example: pathto
+          description: Путь урока, должно быть от 3 до 20 символов и содержать только латинские буквы.
+        classNumber:
+          type: array
+          items:
+            type: number
+          example: [1, 2, 3]
+          description: Список классов, для которых предназначен урок.
+    Lessons:
+      type: array
+      items:
+        $ref: "#/components/schemas/Lesson"
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: number
+        message:
+          type: string
