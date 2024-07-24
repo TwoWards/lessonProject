@@ -31,7 +31,6 @@ router.delete('/:id', async (req, res) => {
 router.get('/', async (req, res) => {
     try {
         const lessons = await getLessons({});
-        res.status(200).json(lessons);
     } catch (e) {
         console.error(e);
         return res.status(500).json({ message: 'Ошибка сервера' });

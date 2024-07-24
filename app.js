@@ -1,3 +1,6 @@
+require('dotenv').config();
+const config = require('./config');
+
 const express = require('express');
 const mongoose = require('mongoose');
 const Lesson = require('./src/models/schema.model.js');
@@ -8,9 +11,9 @@ const routes = require("./src/routes.js");
 
 const app = express();
 
-const PORT = 5000;
+const PORT = process.env.APP_PORT;
 
-const DB_URI = 'mongodb://localhost:27017/Lessons_DB';
+const DB_URI = process.env.DB_URI;
 
 app.use(express.json());
 
