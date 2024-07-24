@@ -3,10 +3,10 @@ const Lesson = require("../models/schema.model");
 
 async function createLesson(name, path, classNumber) {
     try {
-        return await Lesson.create({name, path, classNumber})
+        return await Lesson.create({name, path, classNumber});
     } catch (e) {
         console.error(e);
-        throw(e)
+        throw(e);
     }
 }
 
@@ -37,6 +37,15 @@ async function editLesson(id, name, path, classNumber) {
     }
 }
 
+async function getLesson(id) {
+    try {
+        return await Lesson.findById(id);
+    } catch (e) {
+        console.error(e);
+        throw e;
+    }
+}
+
 async function getLessons() {
     try {
         return await Lesson.find({})
@@ -47,6 +56,7 @@ async function getLessons() {
 }
 
 module.exports = {
+    getLesson,
     getLessons,
     deleteLesson,
     createLesson,

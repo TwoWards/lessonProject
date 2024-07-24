@@ -1,13 +1,13 @@
 const express = require('express');
 
 const {
+    getLesson,
     getLessons,
     deleteLesson,
     createLesson,
     editLesson,
 } = require("./lessons.service");
 
-const {validationResult} = require("express-validator");
 const {
     validateLessonId,
     validateLessonBody,
@@ -30,6 +30,7 @@ router.delete(
             if(!deletedLesson) {
                 return res.status(400).json({message: 'Урок с указанным id не найден!'})
             }
+
             return res.json('Урок успешно удален');
         } catch (e) {
             console.error('Ошибка при удалении урока:', e);
@@ -47,6 +48,21 @@ router.get('/', async (req, res) => {
         }
 });
 
+router.get(
+    '/:id',
+    ...validateLessonId,
+    async (req, res) => {
+        try {
+            const id = req.params.id;
+
+            const lesson = await getLesson(id);
+            return res.json(lesson);
+        } catch (e) {
+            console.error(e);
+            return res.status(500).json({ message: 'Ошибка сервера' });
+        }
+})
+
 router.patch(
     '/:id',
     ...validateLessonId,
@@ -61,6 +77,7 @@ router.patch(
             if(!editedLesson) {
                 return res.status(400).json({message: 'Урок с указанным id не найден!'})
             }
+
             return res.json(editedLesson);
         } catch (e) {
             console.error('Ошибка при редактировании урока:', e);
