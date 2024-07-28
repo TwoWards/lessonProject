@@ -3,6 +3,7 @@ const { body, param } = require("express-validator");
 const validateLessonId = [
     param("id")
         .notEmpty().withMessage("Id не может быть пустым")
+        .isMongoId().withMessage("Id должен быть валидным идентификатором MobgoDB")
 ];
 
 const validateLessonBody = [

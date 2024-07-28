@@ -1,11 +1,9 @@
 require('dotenv').config();
-const config = require('./config');
 
 const express = require('express');
 const mongoose = require('mongoose');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
-const bodyParser = require('body-parser');
 const routes = require("./src/routes.js");
 
 const app = express();
@@ -21,8 +19,6 @@ const options = {
     },
     apis: ['./main.swagger.yaml'],
 };
-
-const swaggerSpec = swaggerJsdoc(options);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(options)));
 

@@ -12,7 +12,7 @@ const {
     validateLessonId,
     validateLessonBody,
     validateOptionalLessonBody,
-} = require("../validators/lessons.validator");
+} = require("./validators/lessons.validator");
 
 const validateRequest = require("../validators/validateRequest");
 
@@ -51,11 +51,15 @@ router.get('/', async (req, res) => {
 router.get(
     '/:id',
     ...validateLessonId,
+    validateRequest,
     async (req, res) => {
         try {
             const id = req.params.id;
 
             const lesson = await getLesson(id);
+            if(!lesson) {
+                return res.status(400).json({message: 'Урок с указанным id не найден!'})
+            }
             return res.json(lesson);
         } catch (e) {
             console.error(e);

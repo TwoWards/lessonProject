@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const Lesson = require("../models/schema.model");
 
 async function createLesson(name, path, classNumber) {
@@ -21,16 +20,12 @@ async function deleteLesson(id) {
 
 async function editLesson(id, name, path, classNumber) {
     try {
-        const lesson = await Lesson.findById(id);
+        const newLesson = {};
+        if (name) newLesson.name = name;
+        if (path) newLesson.path = path;
+        if (classNumber) newLesson.classNumber = classNumber;
 
-        if (!lesson) throw new Error('Урок не существует');
-
-        if (name) lesson.name = name;
-        if (path) lesson.path = path;
-        if (Array.isArray(classNumber)) lesson.classNumber = classNumber;
-
-        await lesson.save();
-        return lesson;
+        return Lesson.findByIdAndUpdate(id, newLesson);
     } catch (e) {
         console.error(e);
         throw(e);
